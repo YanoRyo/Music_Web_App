@@ -24,6 +24,6 @@
     <p>
         {{ $contact->favorite_genre}}
     </p>
-    
+    <a href="{{ route('chat1') }}"><button type="button" class="btn btn-primary">Chat</button></a>
 </body>
 </html>
