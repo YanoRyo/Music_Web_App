@@ -44,6 +44,7 @@ Route::group(['prefix'=>'contact','middleware'=>'auth'],function(){
     
 });
 
+
 Route::get('contact/index', 'ShowTopController@index')->name('contact.index');
 
 Route::get('chat1', 'ChatController@index')->name('chat1');
