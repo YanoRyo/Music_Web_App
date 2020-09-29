@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
-
     <title>自己紹介ページ</title>
 </head>
 <body>
     <h1>自己紹介ページ</h1>
-    @auth
-    @if( ( $contact->user_id ) === ( Auth::user()->id ) )
-        <img src="{{ asset('storage/img/'. $contact->user_image)}}" alt="どろがめのプロフィール画像">
+    @if( ( $contact->id ) === ( $post->user_id ) )
+        <img src="{{ asset('storage/img/'. $post->user_image)}}" alt="どろがめのプロフィール画像">
     @endif
-    @endauth
     <div class="btn-group">
 		<a href="{{ route('contact.postimage')}}" class="btn  btn-primary">プロフィール画像を設定する</a>
 	</div>
@@ -32,3 +29,4 @@
 	</div>
 </body>
 </html>
+   

@@ -104,8 +104,14 @@ class ContactFormController extends Controller
     public function edit($id)
     {
         //
-        $contact = DB::table('users_post')->find($id);
-        return view('contact.myprofile',compact('contact'));
+        // $contact = DB::table('users_post')->find($id);
+        // return view('contact.myprofile',compact('contact'));
+
+        $contact = DB::table('users')->find($id);
+        $user_id = $id;
+        $post = DB::table('users_post')->where('user_id',$user_id)->first();
+                
+        return view('contact.myprofile',compact('contact','post'));
     }
 
     /**
