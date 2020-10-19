@@ -27,6 +27,8 @@ class ShowTopController extends Controller
     public function create()
     {
         //
+        return view('donemail');
+
     }
 
     /**

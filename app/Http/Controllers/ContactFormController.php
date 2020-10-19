@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ContactForm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreContactForm;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\User_Post;
+use App\Message;
+use App\Message2;
+use App\Reply;
 
 
 class ContactFormController extends Controller
@@ -18,12 +21,19 @@ class ContactFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function index($id)
     {
         //
+        $contact = DB::table('users')->find($id);
+        $user_id = $id;
+        $post = DB::table('users_post')->where('user_id',$user_id)->first();
+                
+        return view('contact.myprofile',compact('contact','post'));
         
-        // クエリビルダー
-        // $contacts = DB::table('contact_forms')->select('id','user_name','address','user_field','favorite_genre','user_image')->paginate(10);
         
     }
 
@@ -59,26 +69,6 @@ class ContactFormController extends Controller
         // dd($contact);
         $contact->save();
         return redirect('contact/index');
-
-
-        // dd($request);
-        // if($request->file('user_image')->isValid()){
-
-        //     $contact = new ContactForm;
-
-        //     $contact->user_name = $request->input('user_name');
-        //     $contact->email = $request->input('email');
-        //     $contact->address = $request->input('address');
-        //     $contact->user_field = $request->input('user_field');
-        //     $contact->favorite_genre = $request->input('favorite_genre');
-        //     $filename = $request->file('user_image')->store('public/img');
-        //     $contact->user_image = basename($filename);
-        //     $contact->password = Hash::make($request->password);
-            
-        // }
-        // // dd($user_name);
-        // $contact->save();
-        // return redirect('contact/index');
     }
 
     /**
@@ -92,7 +82,14 @@ class ContactFormController extends Controller
         //
         
         
+        $comments = Message::where('recieve','=',$id)->get();
+        $replycomments = Message2::where('recieve','=',$id)->get();
 
+        $replys = Reply::where('recieve_id','=',$id)->get();
+        // dd($id);
+                
+   
+        return view('contact.profilechat',compact('comments','replycomments','replys'));
     }
 
     /**
@@ -101,17 +98,46 @@ class ContactFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+    public function save(Request $request,$recieve)
+    {
+        
+        $user = Auth::user();
+        
+        $comment = $request->input('comment');
+        // dd($recieve);
+        Reply::create([
+            'recieve_name' => $user->name,
+            'recieve_id' => $user->id,
+            'send_id' => $recieve,
+            'message' => $comment
+        ]);
+
+        Message2::create([
+            'send_name' => $user->name,
+            'send' => $user->id,
+            'recieve' => $recieve,
+            'message' => $comment
+        ]);
+        
+        
+        return redirect()->route('donemail');
+    }
+    
+
     public function edit($id)
     {
         //
-        // $contact = DB::table('users_post')->find($id);
-        // return view('contact.myprofile',compact('contact'));
+        
+        
+        $contact = $id;
+        // Message::where('id','=',$id)->get();
 
-        $contact = DB::table('users')->find($id);
-        $user_id = $id;
-        $post = DB::table('users_post')->where('user_id',$user_id)->first();
-                
-        return view('contact.myprofile',compact('contact','post'));
+        // dd($contact);
+
+        return view('contact.send',compact('contact'));
+        
     }
 
     /**

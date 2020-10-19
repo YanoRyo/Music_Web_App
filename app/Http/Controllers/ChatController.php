@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
-// use App\Comment;
-// use Illuminate\Support\Facades\Auth;
+
 
 use App\Mail\SampleNotification;
 use Illuminate\Http\Request;
 use App\Events\ChatMessageRecieved;
 use App\Message;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,79 +19,23 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    // public function index(Request $request , $recieve)
+    // public function __construct()
     // {
-    //     // チャットの画面
-        
-    //     $loginId = Auth::id();
-        
-    //     $param = [
-    //       'send' => $loginId,
-    //       'recieve' => $recieve,
-    //     ];
-    //     // dd($param);
- 
-    //     // 送信 / 受信のメッセージを取得する
-    //     $query = Message::where('send' , $loginId)->where('recieve' , $recieve);;
-    //     $query->orWhere(function($query) use($loginId , $recieve){
-    //         $query->where('send' , $recieve);
-    //         $query->where('recieve' , $loginId);
- 
-    //     });
- 
-    //     $comments = $query->get();
-    //     // dd($messages);
-    //     return view('chat1' ,['comments' => $comments]);
-    // }
- 
-    /**
-     * メッセージの保存をする
-     */
-    // public function store(Request $request)
-    // {
- 
-    //     dd($request);
-    //     // リクエストパラメータ取得
-    //     $insertParam = [
-    //         'send' => $request->input('send'),
-    //         'recieve' => $request->input('recieve'),
-    //         'message' => $request->input('message'),
-    //     ];
- 
- 
-    //     // メッセージデータ保存
-    //     try{
-    //         Message::insert($insertParam);
-    //     }catch (\Exception $e){
-    //         return false;
- 
-    //     }
- 
- 
-    //     // イベント発火
-    //     event(new ChatMessageRecieved($request->all()));
- 
-    //     // メール送信
-    //     $mailSendUser = User::where('id' , $request->input('recieve'))->first();
-    //     $to = $mailSendUser->email;
-    //     Mail::to($to)->send(new SampleNotification());
- 
-    //     return true;
- 
+    //     $this->middleware('auth');
     // }
 
-
-    public function index()
+    public function index($recieve)
     {
         //
-        $comments = Message::get();
-        // dd($comments);
-        return view('chat1', ['comments' => $comments]);
+        $login = Auth::id();
+        $loginId = strval($login);
+        // $contact = DB::table('users')->find($recieve);
+        $contact = $recieve;
+        // $comments = Message::where('recieve','=',$contact)->get();;
+        $comments = Message::where('recieve',$loginId)->get();
+        // dd($loginId);
+        
+        return view('chat', compact('comments','contact'));
     }
 
     // /**
@@ -101,52 +44,22 @@ class ChatController extends Controller
     //  * @return \Illuminate\Http\Response
     //  */
 
-    public function add(Request $request)
+    public function add(Request $request,$recieve)
     {
         $user = Auth::user();
         $comment = $request->input('comment');
-        // dd($comment);
+        // dd($recieve);
         Message::create([
             'send_name' => $user->name,
             'send' => $user->id,
-            // 'recieve' => $recieve,
+            'recieve' => $recieve,
             'message' => $comment
         ]);
-        // dd($user);
-        return redirect()->route('chat1');
+        return redirect()->route('donemail');
     }
 
 
-    // public function getData()
-    // {
-    //     $comments = Comment::orderBy('created_at', 'desc')->get();
-    //     $json = ["comments" => $comments];
-    //     return response()->json($json);
-    // }
-
-    // public function create()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    //     $user = new Chat;
-    //     $comment = $request->input('comment');
-    //     Comment::create([
-    //     'login_id' => $user->id,
-    //     'name' => $user->name,
-    //     'comment' => $comment
-    // ]);
-    // return redirect()->route('comments/chat');
-    // }
+    
 
     /**
      * Display the specified resource.

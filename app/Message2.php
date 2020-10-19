@@ -4,9 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Message2 extends Model
 {
-    protected $table = 'messages';
+    //
+    protected $table = 'messages2';
     protected $fillable = [
         'send_name','send','recieve', 'message'
     ];

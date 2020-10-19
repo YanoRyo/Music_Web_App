@@ -7,6 +7,7 @@ use App\Models\ContactForm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreContactForm;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\User_Post;
 
@@ -21,7 +22,12 @@ class SingerController extends Controller
     {
         //
         $search = $request->input('search');
+        // $user = Auth::user();
+        // $query = User::where('id' ,'<>' , $user->id)->get();
+        // $query = DB::table('users')->where('id' ,'<>' , $user->id);
         $query = DB::table('users');
+        // dd($query);
+        
         // もしキーワードがあったら
         if($search !== null){
             //全角スペースを半角に
@@ -39,6 +45,7 @@ class SingerController extends Controller
         $query->join('users_post','users.id','=','users_post.user_id')
         ->select('users.id','users.name','users.address','users.user_field','users.favorite_genre','users_post.user_image')
         ->where('user_field','歌手');
+        
         $contacts = $query->paginate(10);
         
         

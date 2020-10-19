@@ -37,16 +37,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand">Digger Gelman</a>
+                    <a class="navbar-brand">音楽マッチングサイト</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                    
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#about">AboutUs</a></li>
-                        <li><a href="#contact">Contact</a></li>
                         @if (Route::has('login'))
                         @auth
                             <li><a href="{{ route('contact.myprofile',Auth::user())}}">MyProfile</a></li>
+                            <li><a href="{{ route('contact.profilechat',['id' => Auth::user()->id])}}">MyMessage</a></li>
                             @else
                                 <li><a href="{{ route('login') }}">Login</a></li>
                                 @if (Route::has('register'))
@@ -64,8 +64,7 @@
         <div class="container">
             <div class="box">
                 <ul class="subheading-text">
-                    <li>「あなたの音楽を</li>
-                    <li> みんなの音楽に」</li>
+                    <li>「あなたの音楽をみんなの音楽に」</li>
                 </ul>
                 </div>
             </div>

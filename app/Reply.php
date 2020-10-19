@@ -4,14 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Reply extends Model
 {
-    protected $table = 'messages';
+    //
+    protected $table = 'replys';
+
     protected $fillable = [
-        'send_name','send','recieve', 'message'
+        'recieve_name','recieve_id','send_id','message'
     ];
 
     protected $guarded = [
         'create_at', 'update_at'
     ];
 }
+

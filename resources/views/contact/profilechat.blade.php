@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Digger Gelman</title>
+    <title>MUSIC</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,29 +24,22 @@
 <div class="chat-container row justify-content-center">
     <div class="chat-area">
         <div class="card">
-            <div class="card-header">Comment</div>
+            <div class="card-header">Message</div>
             <div class="card-body chat-card">
             <div class="card-body chat-card">
                 @foreach ($comments as $item)
                 @include('components.comment', ['item' => $item])
+                <td><a href="{{ route('contact.send',['id' => $item->send]) }}">返信を送る</a></td>
+                @endforeach
+                @foreach ($replycomments as $item)
+                @include('components.comment', ['item' => $item])
+                <td><a href="{{ route('contact.send',['id' => $item->send]) }}">返信を送る</a></td>
+                @endforeach
+                @foreach ($replys as $item)
+                @include('components.replycomment', ['item' => $item])
                 @endforeach
             </div>
             </div>
         </div>
     </div>
 </div>
-
-<form method="POST" action="{{route('add')}}">
-    @csrf
-    <div class="comment-container row justify-content-center">
-        <div class="input-group comment-area">
-            <textarea class="form-control" id="comment" name="comment" placeholder="push massage (shift + Enter)"
-                aria-label="With textarea"
-                onkeydown="if(event.shiftKey&&event.keyCode==13){document.getElementById('submit').click();return false};"></textarea>
-            <button type="submit" id="submit" class="btn btn-outline-primary comment-btn">Submit</button>
-        </div>
-    </div>
-</form>
-@section('js')
-<script src="{{ asset('js/comment.js') }}"></script>
-@endsection

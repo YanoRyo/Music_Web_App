@@ -15,13 +15,13 @@
     <p>
         ニックネーム:{{ $contact->name}}<br>
         出身：{{ $contact->address}}<br>
-        分野：{{ $contact->user_field}}<br>
+        得意分野：{{ $contact->user_field}}<br>
         
     </p>
     <h2>ひとこと</h2>
     <p>
         {{ $contact->favorite_genre}}
     </p>
-    <a href="{{ route('chat1') }}"><button type="button" class="btn btn-primary">Chat</button></a>
+    <a href="{{ route('chat',['recieve' => $contact->id]) }}"><button type="button" class="btn btn-primary">メッセージを送る</button></a>
 </body>
 </html>

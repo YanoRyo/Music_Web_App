@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Digger Gelman</title>
+    <title>MUSIC</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -21,24 +21,9 @@
 </head>
 <body>
 
-<div class="chat-container row justify-content-center">
-    <div class="chat-area">
-        <div class="card">
-            <div class="card-header">Comment</div>
-            <div class="card-body chat-card">
-            <div class="card-body chat-card">
-                @foreach ($comments as $item)
-                @include('components.comment', ['item' => $item])
-                @endforeach
-            </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<form method="POST" action="{{route('add')}}">
+<form method="POST" action="{{route('save',['recieve' => $contact])}}">
     @csrf
-    <div class="comment-container row justify-content-center">
+    <div class="row justify-content-center">
         <div class="input-group comment-area">
             <textarea class="form-control" id="comment" name="comment" placeholder="push massage (shift + Enter)"
                 aria-label="With textarea"

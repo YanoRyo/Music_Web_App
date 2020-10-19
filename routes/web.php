@@ -30,37 +30,29 @@ Route::group(['prefix'=>'search','middleware'=>'auth'],function(){
     Route::get('composer', 'ComposerController@index')->name('search.composer');
     Route::get('composershow/{id}', 'ComposerController@show')->name('search.composershow');
 
-    // Route::post('contact/store', 'ContactFormController@store')->name('contact.store');
-    // Route::get('comments/chat', 'ChatController@index')->name('comments.chat');
-    // Route::post('comments/store', 'ChatController@store')->name('comment.store');
 });
 
 Route::group(['prefix'=>'contact','middleware'=>'auth'],function(){
-    Route::get('myprofile/{id}', 'ContactFormController@edit')->name('contact.myprofile');
+    Route::get('myprofile/{id}', 'ContactFormController@index')->name('contact.myprofile');
     Route::get('postimage', 'ContactFormController@create')->name('contact.postimage');
     Route::post('store', 'ContactFormController@store')->name('contact.store');
 
+    Route::get('profilechat/{id}', 'ContactFormController@show')->name('contact.profilechat');
+
     
-    
+
 });
 
-
 Route::get('contact/index', 'ShowTopController@index')->name('contact.index');
+Route::get('contact/send/{id}', 'ContactFormController@edit')->name('contact.send');
+Route::post('/save/{recieve}', 'ContactFormController@save')->name('save');
 
-Route::get('chat1', 'ChatController@index')->name('chat1');
-Route::post('/add', 'ChatController@add')->name('add');
-Route::get('home1', 'ContactController@index')->name('home1');
-
-
-// Route::post('/add', 'ChatController@add')->name('add');
-// Route::get('/result/ajax', 'ChatController@getData');
+Route::get('donemail', 'ShowTopController@create')->name('donemail');
 
 
-// Route::get('contact/singer', 'ContactFormController@index')->name('contact.singer');
-// Route::get('contact/singershow/{id}', 'ContactFormController@show')->name('contact.singershow');
 
 
-// Route::get('contact/registar', 'ContactFormController@create')->name('contact.registar');
-// Route::post('contact/store', 'ContactFormController@store')->name('contact.store');
+Route::get('chat/{recieve}', 'ChatController@index')->name('chat');
+Route::post('/add/{recieve}', 'ChatController@add')->name('add');
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -11,9 +11,7 @@
     @if( ( $contact->id ) === ( $post->user_id ) )
         <img src="{{ asset('storage/img/'. $post->user_image)}}" alt="どろがめのプロフィール画像">
     @endif
-    <div class="btn-group">
-		<a href="{{ route('contact.postimage')}}" class="btn  btn-primary">プロフィール画像を設定する</a>
-	</div>
+    
     <h2>プロフィール</h2>
     <p>
         ニックネーム:{{ Auth::user()->name}}<br>
